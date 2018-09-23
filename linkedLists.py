@@ -50,16 +50,23 @@ class SLList(object):
   self.root = root
   self.tail = root
 
- def insert_head(self, node):
+ def __insert_head(self, node):
   node = SLNode(node)
   node.set_next(self.root)
   self.root = node
   if not self.tail: self.tail = self.root
 
- def insert_tail(self, node):
+ def __insert_tail(self, node):
   node = SLNode(node)
   node.set_next(None)
   self.tail.set_next(node)
+
+ def insert(self, node, type='head'):
+  {
+   'head' : self.__insert_head,
+   'tail' : self.__insert_tail
+  }[type](node)
+  
 
  def get_last(self):
   node = self.root
@@ -109,6 +116,9 @@ if __name__ == '__main__':
  temp.print_all()
  temp.delete(2)
  temp.print_all()
+ temp.insert(7, 'tail')
+ temp.print_all()
+ print (temp.size())
  
 
 
