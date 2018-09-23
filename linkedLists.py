@@ -48,11 +48,18 @@ class SLList(object):
 
  def __init__(self, root=None):
   self.root = root
+  self.tail = root
 
- def insert(self, node):
+ def insert_head(self, node):
   node = SLNode(node)
   node.set_next(self.root)
   self.root = node
+  if not self.tail: self.tail = self.root
+
+ def insert_tail(self, node):
+  node = SLNode(node)
+  node.set_next(None)
+  self.tail.set_next(node)
 
  def get_last(self):
   node = self.root
