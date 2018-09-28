@@ -1,80 +1,88 @@
 class SLList(object):
  def __init__(self, data='root', next=None):
   self.data = data
-  self.next = next
+  self.next = next  
 
-def search_list(L, key):
- while L and L.data != key : L = L.next
- return L
+ @staticmethod
+ def search_list(L, key):
+  while L and L.data != key : L = L.next
+  return L
 
-def insert_after(node, new_node):
- if not isinstance(new_node, SLList): new_node = SLList(new_node) 
- new_node.next = node.next
- node.next = new_node
+ @classmethod
+ def insert_after(cls, node, new_node):
+  if not isinstance(new_node, cls): new_node = cls(new_node) 
+  new_node.next = node.next
+  node.next = new_node
 
-def delete_after(node):
- node.next = node.next.next
+ @staticmethod
+ def delete_after(node):
+  node.next = node.next.next
 
-def get_list(L):
- if L.data == 'root': L=L.next
- while L: 
-  yield L.data
+ @staticmethod
+ def get_list(L):
+  if L.data == 'root': L=L.next
+  while L: 
+   yield L.data
+   L = L.next
+
+ @classmethod
+ def count(cls, L):
+  L = cls.skip_root(L)
+  count = 0
+  while L:
+   count+=1
   L = L.next
+  return count
 
-def count(L):
- if L.data == 'root': L=L.next
- count = 0
- while L:
-  count+=1
-  L = L.next
- return count
+ @classmethod
+ def print_all(cls, L):
+  print(list(cls.get_list(L)))
 
-def print_all(L):
- print(list(get_list(L)))
+ @staticmethod
+ def skip_root(L):
+  return L.next if L.data == 'root' else L
 
-skip_root = lambda L: L.next if L.data == 'root' else L
-
-def merge_sorted_list(L1, L2):
- dummy_head = tail = SLList()
- L1 = skip_root(L1)
- L2 = skip_root(L2)
+ @classmethod
+ def merge_sorted_list(cls, L1, L2):
+  dummy_head = tail = cls()
+  L1 = cls.skip_root(L1)
+  L2 = cls.skip_root(L2)
  #print_all(L1)
  #print_all(L2)
- while L1 and L2:
+  while L1 and L2:
   #print_all(L1)
   #print_all(L2)
-  if L1.data > L2.data:
-   tail.next, L1 = L1, L1.next
-  else:
-   tail.next, L2 = L2, L2.next
-  tail = tail.next
- print_all(tail) 
- tail.next = L1 or L2
- 
- return skip_root(dummy_head)
+   if L1.data > L2.data:
+    tail.next, L1 = L1, L1.next
+   else:
+    tail.next, L2 = L2, L2.next
+   tail = tail.next
+  #print_all(tail) 
+  tail.next = L1 or L2 
+  return cls.skip_root(dummy_head)
 
 
 temp = SLList()
-insert_after(temp, 6)
-insert_after(temp, 7)
-insert_after(temp, 8)
+SLList.insert_after(temp, 6)
+SLList.insert_after(temp, 7)
+SLList.insert_after(temp, 8)
 
-print_all(temp)
+SLList.print_all(temp)
 
-print(count(temp))
+print(SLList.count(temp))
 
 L1 = SLList()
-insert_after(L1, 2)
-insert_after(L1, 5)
-insert_after(L1, 7)
+SLList.insert_after(L1, 2)
+SLList.insert_after(L1, 5)
+SLList.insert_after(L1, 7)
 
-print_all(L1)
+SLList.print_all(L1)
 
 L2 = SLList()
-insert_after(L2, 3)
-insert_after(L2, 11)
-print_all(L2)
+SLList.insert_after(L2, 3)
+SLList.insert_after(L2, 11)
+SLList.print_all(L2)
 
 
-L = merge_sorted_list(L1, L2)
-print_all(L)
+L = SLList.merge_sorted_list(L1, L2)
+SLList.print_all(L)
