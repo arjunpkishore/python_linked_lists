@@ -27,11 +27,12 @@ class SLList(object):
 
  @classmethod
  def count(cls, L):
+  #print('entered count method')
   L = cls.skip_root(L)
   count = 0
   while L:
    count+=1
-  L = L.next
+   L = L.next
   return count
 
  @classmethod
@@ -41,6 +42,14 @@ class SLList(object):
  @staticmethod
  def skip_root(L):
   return L.next if L.data == 'root' else L
+
+ @classmethod
+ def reverse(cls, L):
+  temp = cls()
+  while L:
+   cls.insert_after(temp, L.data)
+   L = L.next
+  return temp
 
  @classmethod
  def merge_sorted_list(cls, L1, L2):
@@ -86,3 +95,4 @@ SLList.print_all(L2)
 
 L = SLList.merge_sorted_list(L1, L2)
 SLList.print_all(L)
+SLList.print_all(SLList.reverse(L))
